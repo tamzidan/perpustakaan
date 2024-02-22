@@ -20,4 +20,27 @@ class BukuController extends Controller
         $kategori = kategori::distinct()->get();
         return view('buku.buku_create', compact('kategori'));
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required|integer',
+            'kategori_id' => 'required'
+        ]);
+
+        Buku::create([
+            'judul' => $request->judul,
+            'pengarang' => $request->penulis,
+            'penerbit' => $request->penerbit,
+            'tahun_terbit' => $request->tahun_terbit,
+            'kategori_id' => $request->kategori_id
+        ]);
+
+        return redirect('/buku')->with('success', 'Buku berhasil ditambahkan!');
+
+    }
+
 }
